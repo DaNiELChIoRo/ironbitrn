@@ -1,0 +1,31 @@
+dependencies: \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTModuleMethod.mm \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTModuleMethod.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTBridgeMethod.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTBridgeModule.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTDefines.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/DevSupport/RCTInspectorDevServerHelper.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/DevSupport/RCTPackagerConnection.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTNullability.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTAssert.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTBridge+Private.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTBridge.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTBridgeDelegate.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTJavaScriptLoader.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTFrameUpdate.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTInvalidating.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTConvert.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Views/RCTAnimationType.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Views/RCTBorderStyle.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTLog.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTUtils.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Views/RCTPointerEvents.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Views/RCTTextDecorationLineType.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/ios/build/ironbit/Build/Products/Debug-iphonesimulator/include/yoga/Yoga.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/ios/build/ironbit/Build/Products/Debug-iphonesimulator/include/yoga/YGEnums.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/ios/build/ironbit/Build/Products/Debug-iphonesimulator/include/yoga/YGMacros.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/ios/build/ironbit/Build/Products/Debug-iphonesimulator/include/yoga/YGValue.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTCxxConvert.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTManagedPointer.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Base/RCTParserUtils.h \
+  /Users/alex/Developer/playground/ironbit/ironbit/node_modules/react-native/React/Profiler/RCTProfile.h
