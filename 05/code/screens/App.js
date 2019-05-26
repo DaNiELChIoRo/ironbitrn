@@ -17,15 +17,18 @@ import {
   ImageBackground,
   Platform
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
-import { createStackNavigator, createAppContainer } from "react-navigation";
-import Field from './field';
-import Home from './Home';
-import Comic from './Comic';
+// import AsyncStorage from '@react-native-community/async-storage';
+import Field from '../components/field';
+import Realm from 'realm';
 
-const accessTokenDBKey = 'accessToken';
+
+import Session from '../models/session'
+// const realm = Realm.open( { schema: [Session] })
+
+// const accessTokenDBKey = 'accessToken';
 
 type Props = {};
+// export default 
 class App extends Component<Props> {
   state = {
     email: "",
@@ -39,14 +42,14 @@ class App extends Component<Props> {
 
   componentDidMount() {
     // AsyncStorage.clear()
-    AsyncStorage.getItem(accessTokenDBKey).then((data) => {
-      if (data) {
-        console.log('has token', data)
-        this.setState({
-          isAuthenticated: data != null
-        })
-      }
-    })
+    // AsyncStorage.getItem(accessTokenDBKey).then((data) => {
+    //   if (data) {
+    //     console.log('has token', data)
+    //     this.setState({
+    //       isAuthenticated: data != null
+    //     })
+    //   }
+    // })
   }
 
   onSubmit = () => {
@@ -89,21 +92,35 @@ class App extends Component<Props> {
       this.setState({
         isLoading: false,
       })
-      AsyncStorage.setItem(accessTokenDBKey, data.accessToken)
-        .then(() => {
-          console.log('Ya se guardo el token')
-          this.props.navigation.navigate('PantallaPrincipal');
-        })
-        .catch(error => console.error('Error:', error))
+    
+
+      // try{
+        Realm.open({ schema: [Session] }).then (realm => {
+          realm.write(() => {
+            realm.create('Session', { accessToken: data.accessToken })
+            this.props.navigation.navigate('PantallaPrincipal');
+          });        
+      })
+    
+      // .catch(e) => {
+      //   console.log("Error on cration", e);
+      // })
+      
+    //   AsyncStorage.setItem(accessTokenDBKey, data.accessToken)
+    //     .then(() => {
+    //       console.log('Ya se guardo el token')
+    //       this.props.navigation.navigate('PantallaPrincipal');
+    //     })
+    //     .catch(error => console.error('Error:', error))
     })
-    .catch(error => {
-      if (error.error) {
-        this.setState({
-          httpError: error.error,
-        })
-      }
-      console.error('Error:', error)
-    })
+    // .catch(error => {
+    //   if (error.error) {
+    //     this.setState({
+    //       httpError: error.error,
+    //     })
+    //   }
+    //   console.error('Error:', error)
+    // })
   }
 
   render() {
@@ -112,7 +129,7 @@ class App extends Component<Props> {
     return (
       <ImageBackground
         style={styles.container}
-        source={require('./gradient.png')}
+        source={require('../gradient.png')}
         imageStyle={{
           resizeMode: 'stretch'
         }}
@@ -176,18 +193,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const AppNavigator = createStackNavigator({
-  App: {
-    screen: App
-  },
-  PantallaPrincipal: {
-    screen: Home,
-  },
-  Comic: {
-    screen: Comic,
-  }
-}, {
-  // initialRouteName: 'PantallaPrincipal',
-});
 
-export default createAppContainer(AppNavigator);
+
+
