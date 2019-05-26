@@ -51,6 +51,13 @@ class App extends Component<Props> {
     //   }
     // })
   }
+//   Realm.open({ schema: [Session] }).then (realm => {
+  //let sssion = realm.objets('Session')
+//     realm.write(() => {
+//       realm.create('Session', { accessToken: data.accessToken })
+//       this.props.navigation.navigate('PantallaPrincipal');
+//     });        
+// })
 
   onSubmit = () => {
     this.setState({
@@ -95,12 +102,7 @@ class App extends Component<Props> {
     
 
       // try{
-        Realm.open({ schema: [Session] }).then (realm => {
-          realm.write(() => {
-            realm.create('Session', { accessToken: data.accessToken })
-            this.props.navigation.navigate('PantallaPrincipal');
-          });        
-      })
+        
     
       // .catch(e) => {
       //   console.log("Error on cration", e);
