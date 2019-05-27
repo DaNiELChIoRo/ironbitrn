@@ -1,6 +1,7 @@
 import http from './http';
 
 async function getComics() {
+  console.log('getting Comics!')
   return await http('v1/public/comics')
 }
 

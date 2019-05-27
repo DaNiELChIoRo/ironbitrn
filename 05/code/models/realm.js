@@ -1,26 +1,30 @@
-import realm from 'realm';
+import Session from './session'
+import Realm from 'realm';
 
-export default{
-    realm(callback) {
-        Realm.open({schema: [Session]})
-        .then (callback)
+function reino(callback) {
+        Realm.open({ schema: [Session] })
+            .then(callback)
+            .catch((e) => {
+                console.log("Error on creation", e)
+            })
     }
-}
 
-function add(type, data){
-    realm( (realm) => {
+
+function add(type, data) {
+    reino((realm) => {
+        console.log('Ya se guardo el token', data.accessToken)
         realm.create(type, data)
     })
 }
 
-function get(type){
-    realm((realm)=>{
+function get(type) {
+    realm((realm) => {
         realm.objects(type)
     })
 }
 
 export default {
-    realm, 
+    reino,
     add,
     get
 };

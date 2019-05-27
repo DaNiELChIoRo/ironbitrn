@@ -10,10 +10,12 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    console.log('Dentro de Home screen!')
     Api.getComics()
     .then(data => {
-      console.log(data)
-      this.setState({
+      console.log('retriving the data')
+      console.log(data.data.results)
+      this.setState({        
         comics: data.data.results,
       })
     })

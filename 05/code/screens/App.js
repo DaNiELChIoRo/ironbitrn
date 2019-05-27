@@ -6,7 +6,7 @@
  * @flow
  */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   TouchableOpacity,
   SafeAreaView,
@@ -19,17 +19,17 @@ import {
 } from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
 import Field from '../components/field';
+
 import Realm from 'realm';
-
-
-import Session from '../models/session'
+import Reino from '../models/realm';
+import Session from '../models/session';
 // const realm = Realm.open( { schema: [Session] })
 
-// const accessTokenDBKey = 'accessToken';
+const accessTokenDBKey = 'accessToken';
 
 type Props = {};
 // export default 
-class App extends Component<Props> {
+export default class App extends Component<Props> {
   state = {
     email: "",
     password: "",
@@ -42,7 +42,9 @@ class App extends Component<Props> {
 
   componentDidMount() {
     // AsyncStorage.clear()
+    // console.log('componentDidMount')
     // AsyncStorage.getItem(accessTokenDBKey).then((data) => {
+    //   console.log('componentDidMount Data: ' + data);
     //   if (data) {
     //     console.log('has token', data)
     //     this.setState({
@@ -50,14 +52,26 @@ class App extends Component<Props> {
     //     })
     //   }
     // })
+
+    Reino.reino(realm => {
+      let session = realm.objects('Session')
+      if (session.lenght > 0) {
+        console.log('has token', session[0])
+        this.setState({ isAuthenticated: true })
+      }
+    })
+
+    // Realm.open({ schema: [Session] }).then(realm => {
+    //   let session = realm.objects('Session')
+    //   if (session.lenght > 0) {
+    //     console.log('has token', session[0])
+    //     this.setState({ isAuthenticated: true })
+    //   }
+    // }).catch((e) => {
+    //   console.log("Error on creation", e);
+    // })
+
   }
-//   Realm.open({ schema: [Session] }).then (realm => {
-  //let sssion = realm.objets('Session')
-//     realm.write(() => {
-//       realm.create('Session', { accessToken: data.accessToken })
-//       this.props.navigation.navigate('PantallaPrincipal');
-//     });        
-// })
 
   onSubmit = () => {
     this.setState({
@@ -82,47 +96,57 @@ class App extends Component<Props> {
       return
     }
 
-    const url = "http://localhost:3000/token"
+    // const url = "http://localhost:3000/token"
+    const url = "http://192.168.0.113:3000/token"
     const { email, password } = this.state;
+    console.log('email: ' + email + " password: " + password)
     fetch(url, {
       method: 'POST',
       body: JSON.stringify({
         username: email,
         password,
       }),
-      headers:{
+      headers: {
         'Content-Type': 'application/json'
       }
     })
-    .then(res => res.json())
-    .then(data => {
-      this.setState({
-        isLoading: false,
-      })
-    
+      .then(res => res.json())
+      .then(data => {
+        this.setState({
+          isLoading: false,
+        })
+        // AsyncStorage.setItem(accessTokenDBKey, data.accessToken)
+        //   .then(() => {
+        //     console.log('Ya se guardo el token')
+        //     this.props.navigation.navigate('PantallaPrincipal');
+        //   })
+        //   .catch(error => console.error('Error:', error))
 
-      // try{
-        
-    
-      // .catch(e) => {
-      //   console.log("Error on cration", e);
-      // })
-      
-    //   AsyncStorage.setItem(accessTokenDBKey, data.accessToken)
-    //     .then(() => {
-    //       console.log('Ya se guardo el token')
-    //       this.props.navigation.navigate('PantallaPrincipal');
-    //     })
-    //     .catch(error => console.error('Error:', error))
-    })
-    // .catch(error => {
-    //   if (error.error) {
-    //     this.setState({
-    //       httpError: error.error,
-    //     })
-    //   }
-    //   console.error('Error:', error)
-    // })
+        Reino.reino(realm => {
+          realm.write(() => {
+            Reino.add('Session', { accessToken: data.accessToken })
+            this.props.navigation.navigate('PantallaPrincipal');       
+          })
+        })
+
+        // Realm.open({ schema: [Session] }).then(realm => {
+        //   realm.write(() => {
+        //     realm.create('Session', { accessToken: data.accessToken })
+        //     console.log('Ya se guardo el token', data.accessToken)
+        //     this.props.navigation.navigate('PantallaPrincipal');
+        //   })
+        // }).catch((e) => {
+        //   console.log("Error on creation", e);
+        // })
+      })
+      .catch(error => {
+        if (error.error) {
+          this.setState({
+            httpError: error.error,
+          })
+        }
+        console.error('Error:', error)
+      })
   }
 
   render() {
@@ -136,7 +160,7 @@ class App extends Component<Props> {
           resizeMode: 'stretch'
         }}
       >
-      <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1 }}>
           <View style={{ flex: 1, padding: 24, flexDirection: 'column', justifyContent: 'space-between' }}>
             <View>
               <Text style={styles.heading}>{this.state.isAuthenticated ? 'Welcome' : 'Create Account'}</Text>
@@ -194,7 +218,3 @@ const styles = StyleSheet.create({
     ...buttonStyles
   }
 });
-
-
-
-

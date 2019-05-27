@@ -5,4 +5,4 @@ const Schema = {
     }
   };
 
-  export default Schema
+  export default Schema;

@@ -7,8 +7,8 @@ import Character from './screens/Character';
 
 const AppNavigator = createStackNavigator({
     App: {
-      //  screen: App
-      screen: Home,
+       screen: App,
+      // screen: Home,
     },
     PantallaPrincipal: {
       screen: Home,
