@@ -20,9 +20,11 @@ import {
 // import AsyncStorage from '@react-native-community/async-storage';
 import Field from '../components/field';
 
-import Realm from 'realm';
+// import Realm from 'realm';
 import Reino from '../models/realm';
-import Session from '../models/session';
+// import Session from '../models/session';
+// import Comic from '../models/comic';
+
 // const realm = Realm.open( { schema: [Session] })
 
 const accessTokenDBKey = 'accessToken';
@@ -53,15 +55,16 @@ export default class App extends Component<Props> {
     //   }
     // })
 
-    Reino.reino(realm => {
-      let session = realm.objects('Session')
-      if (session.lenght > 0) {
-        console.log('has token', session[0])
-        this.setState({ isAuthenticated: true })
-      }
-    })
+    // Reino.reino(realm => {
+    //   // let session = realm.objects('Session')
+    //   Reino.get('Session')
+    //   // if (session.lenght > 0) {
+    //   //   console.log('has token', session[0])
+    //   //   this.setState({ isAuthenticated: true })
+    //   // }
+    // })
 
-    // Realm.open({ schema: [Session] }).then(realm => {
+    // Realm.open({ schema: [Session] }).then(realm => {      
     //   let session = realm.objects('Session')
     //   if (session.lenght > 0) {
     //     console.log('has token', session[0])
@@ -76,6 +79,8 @@ export default class App extends Component<Props> {
   onSubmit = () => {
     this.setState({
       isLoading: true,
+      email: 'galactus', 
+      password: 'marvel'
     })
 
     if (!this.state.email) {
@@ -96,8 +101,8 @@ export default class App extends Component<Props> {
       return
     }
 
-    // const url = "http://localhost:3000/token"
-    const url = "http://192.168.0.113:3000/token"
+    const url = "http://localhost:3000/token"
+    // const url = "http://192.168.0.113:3000/token"
     const { email, password } = this.state;
     console.log('email: ' + email + " password: " + password)
     fetch(url, {
@@ -122,11 +127,9 @@ export default class App extends Component<Props> {
         //   })
         //   .catch(error => console.error('Error:', error))
 
-        Reino.reino(realm => {
-          realm.write(() => {
+        Reino.reino(realm => {          
             Reino.add('Session', { accessToken: data.accessToken })
-            this.props.navigation.navigate('PantallaPrincipal');       
-          })
+            this.props.navigation.navigate('PantallaPrincipal');               
         })
 
         // Realm.open({ schema: [Session] }).then(realm => {

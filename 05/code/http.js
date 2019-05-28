@@ -1,6 +1,7 @@
-import AsyncStorage from '@react-native-community/async-storage';
+// import AsyncStorage from '@react-native-community/async-storage';
 import Realm from 'realm';
 import Session from './models/session';
+// import Comic from './models/comic';
 
 import Reino from './models/realm'
 
@@ -10,36 +11,40 @@ function getCredentials() {
   // return AsyncStorage.getItem('accessToken')
 
   return new Promise((ok, nah) => {
-    Reino.reino(realm => {
-      let session = realm.objects('Session')
-      if (session.lenght > 0) {
-        console.log('has token', session[0])
-        ok(session[0].accessToken)
-      }
+    Reino.get('Session', (data) => {
+      ok(data[0].accessToken)
     })
   })
 
   // return new Promise((ok, nah) => {
   //   Realm.open({ schema: [Session] }).then(realm => {
-  //     let session = realm.objects('Session')
-  //     if (session.lenght > 0) {
+  //     const session = realm.objects('Session')
+  //     console.log('has objs', Array.from(session))
+  //     // if (session.lenght > 0) {
   //       console.log('has token', session[0])
   //       ok(session[0].accessToken)
-  //     }
+  //     // }
+  //     nah()
   //   }).catch((e) => {
-  //     console.log("Error on creation", e);
+  //     console.log("Error on creation", eM);
   //     nah(e)
   //   })
   // })
 }
 
 export default async function httpGet(path) {
-  console.log('inside httpGet function')
-  let hash = getCredentials()
-  const url = `https://gateway.marvel.com:443/${path}?apikey=${PUBLIC_KEY}&hash=${hash}&ts=1`
-  console.log(hash)
-  let response = await fetch(url, {
-    method: 'GET',
-  })
-  return response.json()
+  console.log('inside httpG et function')
+  // try {
+    let hash = await getCredentials()
+    // console.log(hash)
+    const url = `https://gateway.marvel.com:443/${path}?apikey=${PUBLIC_KEY}&hash=${hash}&ts=1`
+    console.log({hash})
+    let response = await fetch(url, {
+      method: 'GET',
+    })
+    // console.log('response: ', response)    
+    return response.json()
+  // } catch (e) {
+  //   console.log('error while retriving the credentials: ', e)
+  // }
 }
