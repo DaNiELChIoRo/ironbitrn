@@ -120,27 +120,11 @@ export default class App extends Component<Props> {
         this.setState({
           isLoading: false,
         })
-        // AsyncStorage.setItem(accessTokenDBKey, data.accessToken)
-        //   .then(() => {
-        //     console.log('Ya se guardo el token')
-        //     this.props.navigation.navigate('PantallaPrincipal');
-        //   })
-        //   .catch(error => console.error('Error:', error))
 
         Reino.reino(realm => {          
             Reino.add('Session', { accessToken: data.accessToken })
             this.props.navigation.navigate('PantallaPrincipal');               
         })
-
-        // Realm.open({ schema: [Session] }).then(realm => {
-        //   realm.write(() => {
-        //     realm.create('Session', { accessToken: data.accessToken })
-        //     console.log('Ya se guardo el token', data.accessToken)
-        //     this.props.navigation.navigate('PantallaPrincipal');
-        //   })
-        // }).catch((e) => {
-        //   console.log("Error on creation", e);
-        // })
       })
       .catch(error => {
         if (error.error) {

@@ -16,39 +16,24 @@ class Home extends React.Component {
 
   async componentDidMount() {
     this.addUIListeners()
-    const data = await Api.getComics()
+    Api.getComics()
+    .then( data => {
       console.log(data.data.results)
-      this.setState({
-        comics: data.data.results,
+      data.data.results.forEach(comic => {
+        Reino.add('Comic', {
+          id: comic.id,
+          title: comic.title,
+          description: comic.description,
+          thumbnail: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
+        })
       })
-
-    Reino.add('Comic', {id: comic.id,
-      title: comic.title,
-      description: comic.description,
-      thumbnail: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
-    }).catch(e => {
-      console.log(e)
-  })
-
-    // Realm.open({ schema: [Session, Comic, Character] })
-    //   .then(realm => {
-    //     realm.write(() => {
-    //       data.data.results.forEach(comic => {
-    //         realm.create('Comic', {
-    //           id: comic.id,
-    //           title: comic.title,
-    //           description: comic.description,
-    //           thumbnail: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
-    //         })
-    //       });
-    //     })
-    //   })
-    //   .catch(e => {
-    //       console.log(e)
-    //   })
+    })
   }
 
   addUIListeners = () => {
+    // Reino.get('Comic', () => {
+    //   this.setState({ comic })
+    // })
     Realm.open({ schema: [Session, Comic, Character] })
       .then(realm => {
         realm.objects('Comic').addListener(this.updateUI);

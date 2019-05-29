@@ -1,5 +1,6 @@
 const Schema = {
     name: 'Comic',
+    primaryKey: 'id',
     properties: {
         id: 'int',
         title: 'string?',

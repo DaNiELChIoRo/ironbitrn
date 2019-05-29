@@ -32,6 +32,11 @@ function get(type, callback) {
         return callback(realm.objects(type))        
     })
 }
+function getById(type,id, callback) {
+    reino((realm) => {
+        return callback(realm.objects(type).filtered('id == $0', id))
+    })
+}
 
 function addListener(object ,funcion){
     realm.objects(object).addListener(funcion)
@@ -41,5 +46,6 @@ export default {
     reino,
     add,
     get,
+    getById,
     addListener
 };

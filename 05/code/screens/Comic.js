@@ -4,60 +4,27 @@ import Avatar from '../components/avatar';
 import Api from '../api';
 import Reino from '../models/realm';
 import Realm from 'realm';
-import Session from '../models/session'
-import Comic from '../models/comic'
 import Character from '../models/character';
+import Session from '../models/character';
+import Comic from '../models/character';
 
 class ComicScreen extends React.Component {
   state = {
     comic: {
-      thumbnail: {
-        path: '',
-        extension: '',
-      }
+      title: '',
+      thumbnail: ''
     }
   }
 
   async componentDidMount() {
     const comicId = this.props.navigation.getParam('comicId')
-    Reino.reino(realm =>{
-      console.log('asdoia')
-        const results = realm.objects('Comic').filtered(`id = ${comicId}`)
-        console.log('Comic id is: ', results)
-        this.setState({ comic: results[0], })
-    })
-    // Realm.open({ schema: [Session, Comic, Character] })
-    //   .then(realm => {
-    //     console.log('asdoia')
-    //     const results = realm.objects('Comic').filtered(`id = ${comicId}`)
-    //     console.log('Comic id is: ', results)
-    //     this.setState({ comic: results[0], })
-    //   })
-      // .then(async () => {
-      //   const data = await Api.getComicCharacters(comicId)
-      //   const heros = data.data.results
-      //   console.log({ heros });
-      //   this.setState({ heros })
-      // })
-      .catch(e => {
-        console.log(e)
+    console.log(comicId);
+    Reino.getById('Comic', comicId ,(comic) => {
+      console.log('Comic id is: ', Array.from(comic))
+      this.setState({
+        comic: Array.from(comic)[0],
       })
-    // Reino.get('Comic', (data) => {
-    //   console.log('Comic id is:', data)
-    // })
-    // Api.getComicById(comicId)
-    //   .then(data => {
-    //     console.log(data.data.results[0])
-    //     this.setState({
-    //       comic: data.data.results[0],
-    //     })
-    //   })
-
-    // const data = await Api.getComicCharacters(comicId)
-    // const heros = data.data.results
-    // console.log({ heros });
-    // this.setState({ heros })
-
+    });
   }
 
   handleHeroPress = (character) => () => {
@@ -70,8 +37,6 @@ class ComicScreen extends React.Component {
 
   render() {
     const { comic, heros } = this.state;
-
-
     return (
       // <View style={{ alignItems: 'center', flex: 1}}>
       <ImageBackground

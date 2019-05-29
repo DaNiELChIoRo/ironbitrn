@@ -15,21 +15,6 @@ function getCredentials() {
       ok(data[0].accessToken)
     })
   })
-
-  // return new Promise((ok, nah) => {
-  //   Realm.open({ schema: [Session] }).then(realm => {
-  //     const session = realm.objects('Session')
-  //     console.log('has objs', Array.from(session))
-  //     // if (session.lenght > 0) {
-  //       console.log('has token', session[0])
-  //       ok(session[0].accessToken)
-  //     // }
-  //     nah()
-  //   }).catch((e) => {
-  //     console.log("Error on creation", eM);
-  //     nah(e)
-  //   })
-  // })
 }
 
 export default async function httpGet(path) {
