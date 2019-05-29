@@ -33,8 +33,13 @@ function get(type, callback) {
     })
 }
 
+function addListener(object ,funcion){
+    realm.objects(object).addListener(funcion)
+}
+
 export default {
     reino,
     add,
-    get
+    get,
+    addListener
 };

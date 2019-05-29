@@ -2,13 +2,13 @@ import React from 'react';
 import { FlatList, Text, Image, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 import Avatar from '../components/avatar';
 import Api from '../api';
-// import Reino from '../models/realm';
+import Reino from '../models/realm';
 import Realm from 'realm';
 import Session from '../models/session'
-import * as ComicModel from '../models/comic'
+import Comic from '../models/comic'
 import Character from '../models/character';
 
-class Comic extends React.Component {
+class ComicScreen extends React.Component {
   state = {
     comic: {
       thumbnail: {
@@ -20,18 +20,25 @@ class Comic extends React.Component {
 
   async componentDidMount() {
     const comicId = this.props.navigation.getParam('comicId')
-    Realm.open({ schema: [Session, ComicModel, Character] })
-      .then(realm => {
+    Reino.reino(realm =>{
+      console.log('asdoia')
         const results = realm.objects('Comic').filtered(`id = ${comicId}`)
         console.log('Comic id is: ', results)
         this.setState({ comic: results[0], })
-      })
-      .then(async () => {
-        const data = await Api.getComicCharacters(comicId)
-        const heros = data.data.results
-        console.log({ heros });
-        this.setState({ heros })
-      })
+    })
+    // Realm.open({ schema: [Session, Comic, Character] })
+    //   .then(realm => {
+    //     console.log('asdoia')
+    //     const results = realm.objects('Comic').filtered(`id = ${comicId}`)
+    //     console.log('Comic id is: ', results)
+    //     this.setState({ comic: results[0], })
+    //   })
+      // .then(async () => {
+      //   const data = await Api.getComicCharacters(comicId)
+      //   const heros = data.data.results
+      //   console.log({ heros });
+      //   this.setState({ heros })
+      // })
       .catch(e => {
         console.log(e)
       })
@@ -75,7 +82,7 @@ class Comic extends React.Component {
         }}
       >
         <Image
-          source={{ uri: `${comic.thumbnail}` }}
+          source={{ uri: comic.thumbnail }}
           style={{ width: 200, height: 200, borderRadius: 100 }}
         />
         <Text
@@ -136,4 +143,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Comic;
+export default ComicScreen;

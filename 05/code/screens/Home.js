@@ -3,6 +3,7 @@ import { FlatList, ImageBackground, StyleSheet, Dimensions } from 'react-native'
 // import AsyncStorage from '@react-native-community/async-storage';
 import Api from '../api';
 import ComicItem from '../components/ComicItem';
+import Reino from '../models/realm';
 import Realm from 'realm';
 import Session from '../models/session'
 import Comic from '../models/comic';
@@ -21,24 +22,30 @@ class Home extends React.Component {
         comics: data.data.results,
       })
 
-    Realm.open({ schema: [Session, Comic, Character] })
-      .then(realm => {
-        realm.write(() => {
-          data.data.results.forEach(comic => {                        
-            realm.create('Comic', {
-              id: comic.id,
-              title: comic.title,
-              description: comic.description,
-              thumbnail: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
-            })
-          });
-        })
-      })
-      .catch(e => {
-          console.log(e)
-      })
+    Reino.add('Comic', {id: comic.id,
+      title: comic.title,
+      description: comic.description,
+      thumbnail: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
+    }).catch(e => {
+      console.log(e)
+  })
 
-       
+    // Realm.open({ schema: [Session, Comic, Character] })
+    //   .then(realm => {
+    //     realm.write(() => {
+    //       data.data.results.forEach(comic => {
+    //         realm.create('Comic', {
+    //           id: comic.id,
+    //           title: comic.title,
+    //           description: comic.description,
+    //           thumbnail: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
+    //         })
+    //       });
+    //     })
+    //   })
+    //   .catch(e => {
+    //       console.log(e)
+    //   })
   }
 
   addUIListeners = () => {
@@ -54,6 +61,7 @@ class Home extends React.Component {
     console.log('data changed')
     Realm.open({ schema: [Session, Comic, Character] }).then(realm => {
       this.setState({ comics: Array.from(realm.objects('Comic')) })
+      console.log(Array.from(realm.objects('Comic')))
     })
   }
 
@@ -66,6 +74,7 @@ class Home extends React.Component {
 
 
   showComicDetails = (comic) => () => {
+    console.log(comic)
     this.props.navigation.push('Comic', {
       comicId: comic.id,
     });
@@ -91,7 +100,7 @@ class Home extends React.Component {
               onItemPress={this.showComicDetails(item)}
               title={item.title}
               style={styles.MainContainer}
-              image={`${item.thumbnail.path}.${item.thumbnail.extension}`}
+              image={item.thumbnail}
               width={w / 2}
             />
           )}
