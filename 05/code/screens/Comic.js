@@ -64,7 +64,8 @@ class ComicScreen extends React.Component {
           contentContainerStyle={{ marginTop: 10, marginHorizontal: 16 }}
           renderItem={({ item }) => (
             <Avatar
-              photo={{ uri: `${item.thumbnail.path}.${item.thumbnail.extension}` }}
+              // photo={{ uri: `${item.thumbnail.path}.${item.thumbnail.extension}` }}
+              photo={{ uri: item.thumbnail }}
               heroName={item.name}
               width={100}
               hacerAlgo={this.handleHeroPress(item.id)}
