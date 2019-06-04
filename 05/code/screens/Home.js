@@ -31,9 +31,6 @@ class Home extends React.Component {
   }
 
   addUIListeners = () => {
-    // Reino.get('Comic', () => {
-    //   this.setState({ comic })
-    // })
     Realm.open({ schema: [Session, Comic, Character] })
       .then(realm => {
         realm.objects('Comic').addListener(this.updateUI);
