@@ -2,6 +2,7 @@ import Session from './session';
 import Comic from './comic';
 import Realm from 'realm';
 import Character from './character';
+import Api from '../api';
 
 async function reino(callback) {
     Realm.open({ schema: [Session, Comic, Character] })
@@ -32,9 +33,15 @@ function get(type, callback) {
         return callback(realm.objects(type))        
     })
 }
-function getById(type,id, callback) {
+function getById(type, id, callback) {
     reino((realm) => {
         return callback(realm.objects(type).filtered('id == $0', id))
+    })
+}
+
+function getComicById(type, id, callback) {
+    reino((realm) => {
+        return callback(realm.objects(type).filtered('id == $0', id));             
     })
 }
 
@@ -47,5 +54,6 @@ export default {
     add,
     get,
     getById,
+    getComicById,
     addListener
 };

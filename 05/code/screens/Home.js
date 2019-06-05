@@ -1,5 +1,10 @@
 import React from 'react';
-import { FlatList, ImageBackground, StyleSheet, Dimensions } from 'react-native';
+import {
+  FlatList,
+  ImageBackground,
+  StyleSheet,
+  Dimensions
+} from 'react-native';
 // import AsyncStorage from '@react-native-community/async-storage';
 import Api from '../api';
 import ComicItem from '../components/ComicItem';
@@ -17,26 +22,26 @@ class Home extends React.Component {
   async componentDidMount() {
     this.addUIListeners()
     Api.getComics()
-    .then( data => {
-      console.log(data.data.results)
-      data.data.results.forEach(comic => {
-        Reino.add('Comic', {
-          id: comic.id,
-          title: comic.title,
-          description: comic.description,
-          thumbnail: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
+      .then(data => {
+        console.log(data.data.results)
+        data.data.results.forEach(comic => {
+          Reino.add('Comic', {
+            id: comic.id,
+            title: comic.title,
+            description: comic.description,
+            thumbnail: `${comic.thumbnail.path}.${comic.thumbnail.extension}`,
+          })
         })
       })
-    })
   }
 
   addUIListeners = () => {
     Realm.open({ schema: [Session, Comic, Character] })
       .then(realm => {
         realm.objects('Comic').addListener(this.updateUI);
-       }).catch(e =>{
-         console.log(e)
-       })
+      }).catch(e => {
+        console.log(e)
+      })
   }
 
   updateUI = () => {
@@ -47,11 +52,11 @@ class Home extends React.Component {
     })
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     Realm.open({ schema: [Session, comic, Character] })
-    .then(realm => {
-      realm.removeAllListeners()
-    })
+      .then(realm => {
+        realm.removeAllListeners()
+      })
   }
 
 
@@ -62,9 +67,9 @@ class Home extends React.Component {
     });
   }
 
-  render() {    
+  render() {
     const w = Dimensions.get('window').width
-    const {comics} = this.state
+    const { comics } = this.state
     return (
       <ImageBackground
         style={styles.container}

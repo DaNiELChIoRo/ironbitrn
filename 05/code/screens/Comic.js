@@ -1,30 +1,53 @@
 import React from 'react';
-import { FlatList, Text, Image, ImageBackground, StyleSheet, Dimensions } from 'react-native';
+import {
+  FlatList,
+  Text,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  ScrollView,
+  Dimensions
+} from 'react-native';
 import Avatar from '../components/avatar';
 import Api from '../api';
 import Reino from '../models/realm';
-import Realm from 'realm';
-import Character from '../models/character';
-import Session from '../models/character';
-import Comic from '../models/character';
 
 class ComicScreen extends React.Component {
+
+  static navigationOptions = ({ navigation }) => ({
+    // headerTransparent: true,
+    title: navigation.getParam('comicTitle', 'Default title'),
+  })
+
   state = {
     comic: {
       title: '',
-      thumbnail: ''
+      thumbnail: '',
     }
   }
 
   async componentDidMount() {
     const comicId = this.props.navigation.getParam('comicId')
     console.log(comicId);
-    Reino.getById('Comic', comicId ,(comic) => {
+
+    Reino.getById('Comic', comicId, (comic) => {
       console.log('Comic id is: ', Array.from(comic))
       this.setState({
         comic: Array.from(comic)[0],
       })
     });
+
+    Api.getComicById(comicId).then((data) => {
+      console.log('the comic from the service: ', { data })
+    });
+
+    await Api.getComicCharacters(comicId)
+      .then((data) => {
+        console.log('heros: ', data.data.results);
+        this.setState({
+          heros: data.data.results
+        })
+      });
   }
 
   handleHeroPress = (character) => () => {
@@ -37,47 +60,43 @@ class ComicScreen extends React.Component {
 
   render() {
     const { comic, heros } = this.state;
+    console.log('the real heros:', { heros })
     return (
-      // <View style={{ alignItems: 'center', flex: 1}}>
-      <ImageBackground
-        style={{ flex: 1, alignItems: 'center', paddingTop: 10 }}
-        source={require('../mvgradient.png')}
-        imageStyle={{
-          resizeMode: 'stretch'
-        }}
-      >
-        <Image
-          source={{ uri: comic.thumbnail }}
-          style={{ width: 200, height: 200, borderRadius: 100 }}
-        />
-        <Text
-          style={styles.titleStyle} >
-          {comic.title}
-        </Text>
-        <Text
-          style={styles.descriptionStyle} >
-          {comic.description}
-        </Text>
-        <FlatList
-          data={heros}
-          horizontal
-          contentContainerStyle={{ marginTop: 10, marginHorizontal: 16 }}
-          renderItem={({ item }) => (
-            <Avatar
-              // photo={{ uri: `${item.thumbnail.path}.${item.thumbnail.extension}` }}
-              photo={{ uri: item.thumbnail }}
-              heroName={item.name}
-              width={100}
-              hacerAlgo={this.handleHeroPress(item.id)}
-            />
-          )}
+      <ScrollView>
+        <ImageBackground
+          style={{ flex: 1, alignItems: 'center', paddingTop: 10 }}
+          source={require('../mvgradient.png')}
+          imageStyle={{
+            resizeMode: 'stretch'
+          }}
         >
-        </FlatList>
-      </ImageBackground>
-
-
-      // </View>
-
+          <Image
+            source={{ uri: comic.thumbnail }}
+            style={{ width: 200, height: 200, borderRadius: 100 }}
+          />
+          <Text
+            style={styles.titleStyle} >
+            {comic.title}
+          </Text>
+          <Text
+            style={styles.descriptionStyle} >
+            {comic.description}
+          </Text>
+          <FlatList
+            data={heros}
+            horizontal
+            contentContainerStyle={{ marginTop: 10, marginHorizontal: 16 }}
+            renderItem={({ item }) => (
+              <Avatar
+                photo={{ uri: `${item.thumbnail.path}.${item.thumbnail.extension}`}}
+                heroName={item.name}
+                width={100}
+                hacerAlgo={this.handleHeroPress(item.id)}
+              />
+            )}
+          />
+        </ImageBackground>
+      </ScrollView>
     )
   }
 }
