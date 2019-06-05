@@ -25,6 +25,7 @@ class Home extends React.Component {
       .then(data => {
         console.log(data.data.results)
         data.data.results.forEach(comic => {
+          // console.log('the comic description is ', comic.description)
           Reino.add('Comic', {
             id: comic.id,
             title: comic.title,
@@ -64,6 +65,7 @@ class Home extends React.Component {
     console.log(comic)
     this.props.navigation.push('Comic', {
       comicId: comic.id,
+      comicTitle: comic.title
     });
   }
 

@@ -62,14 +62,14 @@ class ComicScreen extends React.Component {
     const { comic, heros } = this.state;
     console.log('the real heros:', { heros })
     return (
-      <ScrollView>
-        <ImageBackground
-          style={{ flex: 1, alignItems: 'center', paddingTop: 10 }}
-          source={require('../mvgradient.png')}
-          imageStyle={{
-            resizeMode: 'stretch'
-          }}
-        >
+      <ImageBackground
+        style={{ flex: 1, alignItems: 'center', paddingTop: 10 }}
+        source={require('../mvgradient.png')}
+        imageStyle={{
+          resizeMode: 'stretch'
+        }}
+      >
+        <ScrollView>
           <Image
             source={{ uri: comic.thumbnail }}
             style={{ width: 200, height: 200, borderRadius: 100 }}
@@ -88,15 +88,15 @@ class ComicScreen extends React.Component {
             contentContainerStyle={{ marginTop: 10, marginHorizontal: 16 }}
             renderItem={({ item }) => (
               <Avatar
-                photo={{ uri: `${item.thumbnail.path}.${item.thumbnail.extension}`}}
+                photo={{ uri: `${item.thumbnail.path}.${item.thumbnail.extension}` }}
                 heroName={item.name}
                 width={100}
                 hacerAlgo={this.handleHeroPress(item.id)}
               />
             )}
           />
-        </ImageBackground>
-      </ScrollView>
+        </ScrollView>
+      </ImageBackground>
     )
   }
 }
